@@ -5,7 +5,9 @@ from matplotlib import pyplot
 # 数据读取
 data = pandas.read_csv('ex1data2.txt', header=None, names=['Size', 'Bedrooms', 'Price'])
 # Mean Normalization
-data = (data - data.mean()) / data.std()
+for col in ['Size', 'Bedrooms']:
+    data.loc[:, col] = (data.loc[:, col] - data.loc[:, col].mean()) / (data.loc[:, col].max() - data.loc[:, col].min())
+data.loc[:, 'Price'] = data.loc[:, 'Price'].apply(lambda x: x / 10000)
 # 构造特征值矩阵、实际值矩和参数的二维数组
 data.insert(0, 'ones', 1)
 colNum = data.shape[1]
